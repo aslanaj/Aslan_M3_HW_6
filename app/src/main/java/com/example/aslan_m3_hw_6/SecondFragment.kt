@@ -9,8 +9,11 @@ import com.example.aslan_m3_hw_6.databinding.FragmentSecondBinding
 
 class SecondFragment : Fragment() {
 
-    private  lateinit var binding: FragmentSecondBinding
-    private lateinit var data: Song
+    private lateinit var binding: FragmentSecondBinding
+
+    private var songList = arrayListOf<Song>()
+    private var bundle = Bundle()
+    private var fragment: ThirdFragment = ThirdFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,13 +26,32 @@ class SecondFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        data = arguments?.getSerializable("Key") as Song
-        binding.apply {
-            tvSongGet.text = data.songName
-            tvSingerGet.text = data.singerName
-            tvSongTimeGet.text = data.songTime
-        }
+        songList.clear()
+        loadData()
 
+        val songAdapter = SongAdapter(songList, this::onClick)
+        binding.rvSong.adapter = songAdapter
     }
 
+    private fun loadData() {
+        songList.add(Song("Dusk Till Down", "Zayn", "5.37"))
+        songList.add(Song("Ride", "Twenty One Pilots", "3.46"))
+        songList.add(Song("Famy", "Ava", "4.01"))
+        songList.add(Song("Rainy Day", "TumaniYO", "4.42"))
+        songList.add(Song("Set fire to the hills", "Adele", "4.11"))
+        songList.add(Song("Not Afraid", "Eminem", "4.19"))
+        songList.add(Song("Way Down We Go", "Koleo", "3.35"))
+        songList.add(Song("Enemy", "Imagine Dragons", "3.34"))
+        songList.add(Song("Люби Меня", "MiyaGi", "5.21"))
+        songList.add(Song("Blinding Lights", "The Weeknd", "10.21"))
+        songList.add(Song("Не Лей", "Bakr", "3.21"))
+    }
+
+    private fun onClick(position: Int) {
+        bundle.putSerializable("Key", songList[position])
+        fragment.arguments = bundle
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_second, fragment).addToBackStack(null).commit()
+
+    }
 }
