@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import com.example.aslan_m3_hw_6.databinding.FragmentSecondBinding
 
 class SecondFragment : Fragment() {
@@ -48,6 +49,8 @@ class SecondFragment : Fragment() {
     }
 
     private fun onClick(position: Int) {
+        requireActivity().supportFragmentManager
+            .findFragmentById(R.id.fragment_first_container)?.view?.isGone=true
         bundle.putSerializable("Key", songList[position])
         fragment.arguments = bundle
         requireActivity().supportFragmentManager.beginTransaction()
